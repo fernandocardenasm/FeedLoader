@@ -10,6 +10,7 @@
 		A40F650925D97A91001958E3 /* FeedLoader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A40F64FF25D97A91001958E3 /* FeedLoader.framework */; };
 		A40F650E25D97A91001958E3 /* FeedLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40F650D25D97A91001958E3 /* FeedLoaderTests.swift */; };
 		A40F651025D97A91001958E3 /* FeedLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = A40F650225D97A91001958E3 /* FeedLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A40F651C25D97B34001958E3 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40F651B25D97B34001958E3 /* FeedItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		A40F650825D97A91001958E3 /* FeedLoaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeedLoaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A40F650D25D97A91001958E3 /* FeedLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderTests.swift; sourceTree = "<group>"; };
 		A40F650F25D97A91001958E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A40F651B25D97B34001958E3 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			children = (
 				A40F650225D97A91001958E3 /* FeedLoader.h */,
 				A40F650325D97A91001958E3 /* Info.plist */,
+				A40F651B25D97B34001958E3 /* FeedItem.swift */,
 			);
 			path = FeedLoader;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 				TargetAttributes = {
 					A40F64FE25D97A91001958E3 = {
 						CreatedOnToolsVersion = 12.4;
+						LastSwiftMigration = 1240;
 					};
 					A40F650725D97A91001958E3 = {
 						CreatedOnToolsVersion = 12.4;
@@ -194,6 +198,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A40F651C25D97B34001958E3 /* FeedItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +345,7 @@
 		A40F651425D97A91001958E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -357,6 +363,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cardenas.fernando.FeedLoader;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -364,6 +371,7 @@
 		A40F651525D97A91001958E3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -388,6 +396,7 @@
 		A40F651725D97A91001958E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = SAR2G9PZXH;
@@ -406,6 +415,7 @@
 		A40F651825D97A91001958E3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = SAR2G9PZXH;
