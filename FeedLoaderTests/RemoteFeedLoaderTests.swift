@@ -6,11 +6,10 @@
 //
 
 import XCTest
+import FeedLoader
 
 class RemoteFeedLoaderTests: XCTestCase {
-    
-    class RemoteFeedLoader {}
-    
+        
     func test_init() {
         let sut = RemoteFeedLoader()
     }
