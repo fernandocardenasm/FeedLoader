@@ -7,22 +7,30 @@
 
 import Foundation
 
-final public class RemoteFeedLoader {
-    
-    let url: URL
-    let client: HTTPClient
+public typealias FeedLoaderResult = Result<[FeedItem], Error>
+
+public protocol FeedLoader {
+    func load(completion: @escaping (FeedLoaderResult) -> Void)
+}
+
+final public class RemoteFeedLoader: FeedLoader {
     
     public enum Error: Swift.Error {
         case connectivity
         case invalidData
     }
     
+    let url: URL
+    let client: HTTPClient
+    
+    public typealias Result = FeedLoaderResult
+    
     public init(url: URL, client: HTTPClient) {
         self.url = url
         self.client = client
     }
     
-    public func load(completion: @escaping (Result<[FeedItem], Error>) -> Void) {
+    public func load(completion: @escaping (Result) -> Void) {
         client.get(url: url) { [weak self] result in
             guard let _ = self else { return }
             
@@ -30,7 +38,7 @@ final public class RemoteFeedLoader {
             case let .success((data, response)):
                 completion(FeedItemsMapper.map(data, response))
             case .failure:
-                completion(.failure(.connectivity))
+                completion(.failure(Error.connectivity))
             }
         }
     }
@@ -56,10 +64,10 @@ private struct FeedItemsMapper {
         }
     }
     
-    static func map(_ data: Data, _ response: HTTPURLResponse) -> Result<[FeedItem],RemoteFeedLoader.Error> {
+    static func map(_ data: Data, _ response: HTTPURLResponse) -> RemoteFeedLoader.Result {
         guard response.statusCode == 200,
               let root = try? JSONDecoder().decode(Root.self, from: data) else {
-            return .failure(.invalidData)
+            return .failure(RemoteFeedLoader.Error.invalidData)
         }
         
         return .success(root.feed)
