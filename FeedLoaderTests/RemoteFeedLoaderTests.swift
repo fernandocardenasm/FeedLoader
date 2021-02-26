@@ -113,9 +113,8 @@ class RemoteFeedLoaderTests: XCTestCase {
         let client = HTTPClientSpy()
         let sut = RemoteFeedLoader(url: url, client: client)
         
-        addTeardownBlock { [weak sut] in
-            XCTAssertNil(sut, "Instance should have been deallocated. Potential Memory leak.")
-        }
+        trackForMemoryLeaks(sut)
+        
         return (sut, client)
     }
     
