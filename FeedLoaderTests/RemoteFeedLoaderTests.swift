@@ -170,7 +170,7 @@ class HTTPClientSpy: HTTPClient {
         messages.map(\.url)
     }
     
-    func get(url: URL, completion: @escaping (Result<(Data, HTTPURLResponse), Error>) -> Void) {
+    func get(from url: URL, completion: @escaping (Result<(Data, HTTPURLResponse), Error>) -> Void) {
         messages.append((url, completion))
     }
     
