@@ -21,7 +21,7 @@
                BlueprintIdentifier = "A4E492E025EBA9970095F326"
                BuildableName = "EssentialFeedAPIEndtoEndTests.xctest"
                BlueprintName = "EssentialFeedAPIEndtoEndTests"
-               ReferencedContainer = "container:FeedLoader.xcodeproj">
+               ReferencedContainer = "container:EssentialFeed.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

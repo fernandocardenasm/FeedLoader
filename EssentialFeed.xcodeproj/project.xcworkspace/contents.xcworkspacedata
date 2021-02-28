@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:">
+      location = "self:/Users/fcardenas/Desktop/Personal_Projects/FeedLoader/EssentialFeed.xcodeproj">
    </FileRef>
 </Workspace>

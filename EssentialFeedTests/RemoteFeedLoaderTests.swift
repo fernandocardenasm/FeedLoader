@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import FeedLoader
+import EssentialFeed
 
 class RemoteFeedLoaderTests: XCTestCase {
         
