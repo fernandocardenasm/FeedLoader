@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>EssentialFeedAPIEndtoEndTests.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>FeedLoader.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
@@ -18,6 +23,11 @@
 			<true/>
 		</dict>
 		<key>A40F650725D97A91001958E3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A4E492E025EBA9970095F326</key>
 		<dict>
 			<key>primary</key>
 			<true/>
