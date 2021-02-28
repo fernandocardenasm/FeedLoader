@@ -5,7 +5,7 @@
 //  Created by Fernando Cardenas on 24.02.21.
 //
 
-import FeedLoader
+import EssentialFeed
 import XCTest
 
 class URLSessionHTTPClientTests: XCTestCase {
