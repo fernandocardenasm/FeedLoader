@@ -91,9 +91,12 @@ class CacheFeedUseCaseTests: XCTestCase {
         XCTAssertEqual(receivedError as NSError?, expectedError)
     }
     
-    private func makeSUT(currentDate: @escaping () -> Date = Date.init) -> (LocalFeedLoader, FeedStoreSpy) {
+    private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #file, line: UInt = #line) -> (LocalFeedLoader, FeedStoreSpy) {
         let store = FeedStoreSpy()
-        let sut = LocalFeedLoader(store: store, currentDate: currentDate )
+        let sut = LocalFeedLoader(store: store, currentDate: currentDate)
+        
+        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeaks(store, file: file, line: line)
         
         return (sut, store)
     }

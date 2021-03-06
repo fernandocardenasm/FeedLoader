@@ -17,7 +17,7 @@ public class LocalFeedLoader {
     }
     
     public func save(_ items: [FeedItem], completion: @escaping (Error?) -> Void) {
-        store.deleteCachedFeed { error in
+        store.deleteCachedFeed { [unowned self] error in
             if let error = error {
                 completion(error)
             } else {
