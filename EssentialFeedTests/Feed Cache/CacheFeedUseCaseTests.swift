@@ -167,9 +167,9 @@ class CacheFeedUseCaseTests: XCTestCase {
             receivedMessages.append(.deleteCachedFeed)
         }
         
-        func insert(_ items: [LocalFeedImage], timestamp: Date, completion: @escaping (Error?) -> Void) {
+        func insert(_ images: [LocalFeedImage], timestamp: Date, completion: @escaping (Error?) -> Void) {
             insertCompletions.append(completion)
-            receivedMessages.append(.insert(items, timestamp))
+            receivedMessages.append(.insert(images, timestamp))
         }
         
         func completeDeletion(withError error: Error, at index: Int = 0) {
