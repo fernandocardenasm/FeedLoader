@@ -8,10 +8,16 @@
 import Foundation
 
 public class LocalFeedLoader {
+    
+    private struct Constants {
+        static let maxCacheAgeInDays = 7
+    }
+    
     private let store: FeedStore
     private let currentDate: () -> Date
     
     public typealias SaveResult = Error?
+    public typealias LoadResult = Result<[FeedImage], Error>
     
     public init(store: FeedStore, currentDate: @escaping () -> Date) {
         self.store = store
@@ -26,6 +32,19 @@ public class LocalFeedLoader {
                 completion(cacheDeletionError)
             } else {
                 self.cache(images: images, withCompletion: completion)
+            }
+        }
+    }
+    
+    public func load(completion: (LoadResult) -> Void) {
+        store.retrieve { result in
+            switch result {
+            case .success(.empty):
+                break
+            case .success(.found):
+                break
+            case .failure:
+                break
             }
         }
     }

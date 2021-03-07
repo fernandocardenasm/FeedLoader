@@ -152,14 +152,17 @@ class CacheFeedUseCaseTests: XCTestCase {
         
         typealias DeletionCompletion = (Error?) -> Void
         typealias InsertionCompletion = (Error?) ->  Void
+        typealias LoadCompletion = (Result<RetrievalSuccess, Error>) -> Void
         
         enum ReceivedMessage: Equatable {
             case deleteCachedFeed
             case insert([LocalFeedImage], Date)
+            case retrieve([FeedImage], Date)
         }
         
         var deleteCompletions = [DeletionCompletion]()
         var insertCompletions = [InsertionCompletion]()
+        var loadCompletions = [LoadCompletion]()
         var receivedMessages = [ReceivedMessage]()
         
         func deleteCachedFeed(completion: @escaping DeletionCompletion) {
@@ -186,6 +189,10 @@ class CacheFeedUseCaseTests: XCTestCase {
         
         func completeInsertionSuccessfully(at index: Int = 0) {
             insertCompletions[index](nil)
+        }
+        
+        func retrieve(completion: @escaping RetrievalCompletion) {
+            loadCompletions.append(completion)
         }
     }
 }
