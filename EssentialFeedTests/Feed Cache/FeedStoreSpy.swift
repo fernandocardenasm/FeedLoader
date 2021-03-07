@@ -17,7 +17,7 @@ class FeedStoreSpy: FeedStore {
     enum ReceivedMessage: Equatable {
         case deleteCachedFeed
         case insert([LocalFeedImage], Date)
-        case retrieve([FeedImage], Date)
+        case retrieve
     }
     
     var deleteCompletions = [DeletionCompletion]()
@@ -53,5 +53,18 @@ class FeedStoreSpy: FeedStore {
     
     func retrieve(completion: @escaping RetrievalCompletion) {
         loadCompletions.append(completion)
+        receivedMessages.append(.retrieve)
+    }
+    
+    func completeRetrievalSuccessfullyEmpty(at index: Int = 0) {
+        loadCompletions[index](.success(.empty))
+    }
+    
+    func completeRetrievalSuccessfullyFound(images: [LocalFeedImage], timestamp: Date, at index: Int = 0) {
+        loadCompletions[index](.success(.found(images, timestamp)))
+    }
+    
+    func completeRetrieval(withError error: Error, at index: Int = 0) {
+        loadCompletions[index](.failure(error))
     }
 }
