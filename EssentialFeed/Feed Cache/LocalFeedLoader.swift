@@ -15,6 +15,7 @@ public class LocalFeedLoader {
     
     private let store: FeedStore
     private let currentDate: () -> Date
+    private let calendar = Calendar(identifier: .gregorian)
     
     public typealias SaveResult = Error?
     public typealias LoadResult = Result<[FeedImage], Error>
@@ -37,12 +38,14 @@ public class LocalFeedLoader {
     }
     
     public func load(completion: @escaping (LoadResult) -> Void) {
-        store.retrieve { result in
+        store.retrieve { [weak self] result in
+            guard let self = self else { return }
+            
             switch result {
-            case .success(.empty):
+            case let .success(.found(feed, timestamp)) where self.validate(timestamp):
+                completion(.success(feed.toModels()))
+            case .success(.empty), .success(.found):
                 completion(.success([]))
-            case .success(.found):
-                break
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -56,6 +59,13 @@ public class LocalFeedLoader {
             completion(error)
         }
     }
+    
+    private func validate(_ timestamp: Date) -> Bool {
+        guard let maxCacheAge = calendar.date(byAdding: .day, value: Constants.maxCacheAgeInDays, to: timestamp) else {
+            return false
+        }
+        return currentDate() < maxCacheAge
+    }
 }
 
 private extension Array where Element == FeedImage {
@@ -67,3 +77,14 @@ private extension Array where Element == FeedImage {
             url: $0.url) }
     }
 }
+
+private extension Array where Element == LocalFeedImage {
+    func toModels() -> [FeedImage] {
+        map { FeedImage(
+            id: $0.id,
+            description: $0.description,
+            location: $0.location,
+            url: $0.url) }
+    }
+}
+
