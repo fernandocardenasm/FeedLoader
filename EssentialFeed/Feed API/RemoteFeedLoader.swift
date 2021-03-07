@@ -7,7 +7,7 @@
 
 import Foundation
 
-public typealias FeedLoaderResult = Result<[FeedItem], Error>
+public typealias FeedLoaderResult = Result<[FeedImage], Error>
 
 public protocol FeedLoader {
     func load(completion: @escaping (FeedLoaderResult) -> Void)
@@ -48,7 +48,7 @@ private struct FeedItemsMapper {
     private struct Root: Decodable {
         let items: [Item]
         
-        var feed: [FeedItem] {
+        var feed: [FeedImage] {
             items.map { $0.item }
         }
     }
@@ -59,8 +59,8 @@ private struct FeedItemsMapper {
         let location: String?
         let image: URL
         
-        var item: FeedItem {
-            FeedItem(id: id, description: description, location: location, imageURL: image)
+        var item: FeedImage {
+            FeedImage(id: id, description: description, location: location, url: image)
         }
     }
     

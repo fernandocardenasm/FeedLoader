@@ -129,8 +129,8 @@ class CacheFeedUseCaseTests: XCTestCase {
         return (sut, store)
     }
     
-    private func uniqueItem() -> FeedItem {
-        FeedItem(
+    private func uniqueItem() -> FeedImage {
+        FeedImage(
             id: UUID(),
             description: "some description",
             location: "some location",
@@ -149,7 +149,7 @@ class CacheFeedUseCaseTests: XCTestCase {
         
         enum ReceivedMessage: Equatable {
             case deleteCachedFeed
-            case insert([FeedItem], Date)
+            case insert([FeedImage], Date)
         }
         
         var deleteCompletions = [DeletionCompletion]()
@@ -161,7 +161,7 @@ class CacheFeedUseCaseTests: XCTestCase {
             receivedMessages.append(.deleteCachedFeed)
         }
         
-        func insert(_ items: [FeedItem], timestamp: Date, completion: @escaping (Error?) -> Void) {
+        func insert(_ items: [FeedImage], timestamp: Date, completion: @escaping (Error?) -> Void) {
             insertCompletions.append(completion)
             receivedMessages.append(.insert(items, timestamp))
         }
