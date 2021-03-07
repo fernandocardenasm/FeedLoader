@@ -36,40 +36,58 @@ final public class RemoteFeedLoader: FeedLoader {
             
             switch result {
             case let .success((data, response)):
-                completion(FeedItemsMapper.map(data, response))
+                completion(Self.map(data, response))
             case .failure:
                 completion(.failure(Error.connectivity))
             }
         }
     }
+    
+    private static func map(_ data: Data, _ response: HTTPURLResponse) -> Result {
+        do {
+            let items = try FeedItemsMapper.map(data, response)
+            return .success(items.toModels())
+        } catch {
+            return .failure(error)
+        }
+    }
+}
+
+private extension Array where Element == RemoteFeedItem {
+    func toModels() -> [FeedImage] {
+        map { FeedImage(
+            id: $0.id,
+            description: $0.description,
+            location: $0.location,
+            url: $0.image) }
+    }
+}
+
+struct RemoteFeedItem: Decodable {
+    let id: UUID
+    let description: String?
+    let location: String?
+    let image: URL
+    
+    init(id: UUID, description: String?, location: String?, image: URL) {
+        self.id = id
+        self.description = description
+        self.location = location
+        self.image = image
+    }
 }
 
 private struct FeedItemsMapper {
     private struct Root: Decodable {
-        let items: [Item]
-        
-        var feed: [FeedImage] {
-            items.map { $0.item }
-        }
+        let items: [RemoteFeedItem]
     }
     
-    private struct Item: Decodable {
-        let id: UUID
-        let description: String?
-        let location: String?
-        let image: URL
-        
-        var item: FeedImage {
-            FeedImage(id: id, description: description, location: location, url: image)
-        }
-    }
-    
-    static func map(_ data: Data, _ response: HTTPURLResponse) -> RemoteFeedLoader.Result {
+    static func map(_ data: Data, _ response: HTTPURLResponse) throws -> [RemoteFeedItem] {
         guard response.statusCode == 200,
               let root = try? JSONDecoder().decode(Root.self, from: data) else {
-            return .failure(RemoteFeedLoader.Error.invalidData)
+            throw RemoteFeedLoader.Error.invalidData
         }
         
-        return .success(root.feed)
+        return root.items
     }
 }
