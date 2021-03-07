@@ -62,7 +62,6 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
             store.completeRetrievalSuccessfullyFound(images: feed.local, timestamp: sevenDaysOldTimestamp)
         })
     }
-
     
     func test_load_deliversNoImagesOnMoreThanSevenDaysOldCache() {
         let feed = uniqueImageFeed()
