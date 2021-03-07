@@ -40,7 +40,7 @@ public class LocalFeedLoader {
         store.retrieve { result in
             switch result {
             case .success(.empty):
-                break
+                completion(.success([]))
             case .success(.found):
                 break
             case .failure(let error):
