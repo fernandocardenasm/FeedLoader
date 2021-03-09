@@ -171,22 +171,4 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         
         XCTAssertTrue(receivedResults.isEmpty)
     }
-    
-    private func anyURL() -> URL {
-        URL(string: "http://any-url.com")!
-    }
-    
-    private func anyNSError() -> NSError {
-        NSError(domain: "any", code: 200)
-    }
-}
-
-private extension Date {
-    func adding(days: Int) -> Date {
-        Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
-    }
-    
-    func adding(seconds: TimeInterval) -> Date {
-        self + seconds
-    }
 }
