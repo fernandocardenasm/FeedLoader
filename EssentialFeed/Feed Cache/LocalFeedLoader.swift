@@ -7,11 +7,23 @@
 
 import Foundation
 
-public class LocalFeedLoader {
+private struct FeedCachePolicy {
     
     private struct Constants {
         static let maxCacheAgeInDays = 7
     }
+    
+    private static let calendar = Calendar(identifier: .gregorian)
+    
+    static func validate(_ timestamp: Date, against date: Date) -> Bool {
+        guard let maxCacheAge = calendar.date(byAdding: .day, value: Constants.maxCacheAgeInDays, to: timestamp) else {
+            return false
+        }
+        return date < maxCacheAge
+    }
+}
+
+public class LocalFeedLoader {
     
     private let store: FeedStore
     private let currentDate: () -> Date
@@ -42,7 +54,7 @@ public class LocalFeedLoader {
             guard let self = self else { return }
             
             switch result {
-            case let .success(.found(feed, timestamp)) where self.validate(timestamp):
+            case let .success(.found(feed, timestamp)) where FeedCachePolicy.validate(timestamp, against: self.currentDate()):
                 completion(.success(feed.toModels()))
             case .success(.found), .success(.empty):
                 completion(.success([]))
@@ -59,7 +71,7 @@ public class LocalFeedLoader {
             switch result {
             case .failure:
                 self.store.deleteCachedFeed { _ in }
-            case let .success(.found(_, timestamp)) where !self.validate(timestamp):
+            case let .success(.found(_, timestamp)) where !FeedCachePolicy.validate(timestamp, against: self.currentDate()):
                 self.store.deleteCachedFeed { _ in }
             case .success(.found), .success(.empty):
                 break
@@ -73,13 +85,6 @@ public class LocalFeedLoader {
             
             completion(error)
         }
-    }
-    
-    private func validate(_ timestamp: Date) -> Bool {
-        guard let maxCacheAge = calendar.date(byAdding: .day, value: Constants.maxCacheAgeInDays, to: timestamp) else {
-            return false
-        }
-        return currentDate() < maxCacheAge
     }
 }
 
