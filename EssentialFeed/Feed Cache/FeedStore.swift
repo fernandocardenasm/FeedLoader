@@ -14,7 +14,8 @@ public enum RetrievalSuccess {
 public protocol FeedStore {
     typealias DeletionCompletion = (Error?) -> Void
     typealias InsertionCompletion = (Error?) ->  Void
-    typealias RetrievalCompletion = (Result<RetrievalSuccess, Error>) -> Void
+    typealias RetrievalCompletion = (RetrievalResult) -> Void
+    typealias RetrievalResult = Result<RetrievalSuccess, Error>
     
     func deleteCachedFeed(completion: @escaping DeletionCompletion)
     
