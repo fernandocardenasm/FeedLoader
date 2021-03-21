@@ -9,7 +9,7 @@ import Foundation
 
 public enum CachedFeed {
     case empty
-    case found([LocalFeedImage], Date)
+    case found(feed: [LocalFeedImage], timestamp: Date)
 }
 
 public protocol FeedStore {
