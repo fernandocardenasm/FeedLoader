@@ -29,7 +29,7 @@ public class LocalFeedLoader {
     private let currentDate: () -> Date
     private let calendar = Calendar(identifier: .gregorian)
     
-    public typealias SaveResult = Error?
+    public typealias SaveResult = Result<Void, Error>
     public typealias LoadResult = Result<[FeedImage], Error>
     
     public init(store: FeedStore, currentDate: @escaping () -> Date) {
@@ -38,13 +38,14 @@ public class LocalFeedLoader {
     }
     
     public func save(_ images: [FeedImage], completion: @escaping (SaveResult) -> Void) {
-        store.deleteCachedFeed { [weak self] error in
+        store.deleteCachedFeed { [weak self] saveResult in
             guard let self = self else { return }
             
-            if let cacheDeletionError = error {
-                completion(cacheDeletionError)
-            } else {
+            switch saveResult {
+            case .success:
                 self.cache(images: images, withCompletion: completion)
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }
@@ -80,10 +81,15 @@ public class LocalFeedLoader {
     }
     
     private func cache(images: [FeedImage], withCompletion completion: @escaping (SaveResult) -> Void) {
-        store.insert(images.toModels(), timestamp: currentDate()) { [weak self] error in
+        store.insert(images.toModels(), timestamp: currentDate()) { [weak self] insertResult in
             guard let _ = self else { return }
             
-            completion(error)
+            switch insertResult {
+            case .success:
+                completion(.success(()))
+            case let .failure(error):
+                completion(.failure(error))
+            }
         }
     }
 }

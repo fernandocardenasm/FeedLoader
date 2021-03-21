@@ -10,8 +10,8 @@ import Foundation
 
 class FeedStoreSpy: FeedStore {
     
-    typealias DeletionCompletion = (Error?) -> Void
-    typealias InsertionCompletion = (Error?) ->  Void
+    typealias DeletionCompletion = FeedStore.DeletionCompletion
+    typealias InsertionCompletion = FeedStore.InsertionCompletion
     typealias RetrievalCompletion = FeedStore.RetrievalCompletion
     
     enum ReceivedMessage: Equatable {
@@ -30,25 +30,25 @@ class FeedStoreSpy: FeedStore {
         receivedMessages.append(.deleteCachedFeed)
     }
     
-    func insert(_ images: [LocalFeedImage], timestamp: Date, completion: @escaping (Error?) -> Void) {
+    func insert(_ images: [LocalFeedImage], timestamp: Date, completion: @escaping DeletionCompletion) {
         insertCompletions.append(completion)
         receivedMessages.append(.insert(images, timestamp))
     }
     
     func completeDeletion(withError error: Error, at index: Int = 0) {
-        deleteCompletions[index](error)
+        deleteCompletions[index](.failure(error))
     }
     
     func completeDeletionSuccessfully(at index: Int = 0) {
-        deleteCompletions[index](nil)
+        deleteCompletions[index](.success(()))
     }
     
     func completeInsertion(withError error: Error, at index: Int = 0) {
-        insertCompletions[index](error)
+        insertCompletions[index](.failure(error))
     }
     
     func completeInsertionSuccessfully(at index: Int = 0) {
-        insertCompletions[index](nil)
+        insertCompletions[index](.success(()))
     }
     
     func retrieve(completion: @escaping RetrievalCompletion) {

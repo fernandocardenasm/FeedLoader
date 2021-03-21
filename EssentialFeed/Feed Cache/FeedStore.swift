@@ -18,14 +18,14 @@ public struct CachedFeed: Equatable {
 }
 
 public protocol FeedStore {
-    typealias DeletionCompletion = (Error?) -> Void
-    typealias InsertionCompletion = (Error?) ->  Void
-    typealias RetrievalCompletion = (RetrievalResult) -> Void
+    typealias DeletionCompletion = (Result<Void, Error>) -> Void
+    typealias InsertionCompletion = (Result<Void, Error>) ->  Void
     typealias RetrievalResult = Result<CachedFeed?, Error>
+    typealias RetrievalCompletion = (RetrievalResult) -> Void
     
     func deleteCachedFeed(completion: @escaping DeletionCompletion)
     
-    func insert(_ images: [LocalFeedImage], timestamp: Date, completion: @escaping (Error?) -> Void)
+    func insert(_ images: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion)
     
     func retrieve(completion: @escaping RetrievalCompletion)
 }
