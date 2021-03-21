@@ -7,10 +7,10 @@
 
 import Foundation
 
-public typealias FeedLoaderResult = Result<[FeedImage], Error>
-
 public protocol FeedLoader {
-    func load(completion: @escaping (FeedLoaderResult) -> Void)
+    typealias Result = Swift.Result<[FeedImage], Error>
+    
+    func load(completion: @escaping (Result) -> Void)
 }
 
 final public class RemoteFeedLoader: FeedLoader {
@@ -23,7 +23,7 @@ final public class RemoteFeedLoader: FeedLoader {
     let url: URL
     let client: HTTPClient
     
-    public typealias Result = FeedLoaderResult
+    public typealias Result = FeedLoader.Result
     
     public init(url: URL, client: HTTPClient) {
         self.url = url
