@@ -12,7 +12,7 @@ class FeedStoreSpy: FeedStore {
     
     typealias DeletionCompletion = (Error?) -> Void
     typealias InsertionCompletion = (Error?) ->  Void
-    typealias LoadCompletion = (Result<CachedFeed, Error>) -> Void
+    typealias LoadCompletion = FeedStore.RetrievalCompletion
     
     enum ReceivedMessage: Equatable {
         case deleteCachedFeed
@@ -57,11 +57,11 @@ class FeedStoreSpy: FeedStore {
     }
     
     func completeRetrievalSuccessfullyEmpty(at index: Int = 0) {
-        loadCompletions[index](.success(.empty))
+        loadCompletions[index](.success(.none))
     }
     
     func completeRetrievalSuccessfullyFound(images: [LocalFeedImage], timestamp: Date, at index: Int = 0) {
-        loadCompletions[index](.success(.found(feed: images, timestamp: timestamp)))
+        loadCompletions[index](.success(CachedFeed(feed: images, timestamp: timestamp)))
     }
     
     func completeRetrieval(withError error: Error, at index: Int = 0) {
