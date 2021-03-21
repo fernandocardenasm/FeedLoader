@@ -12,7 +12,7 @@ class FeedStoreSpy: FeedStore {
     
     typealias DeletionCompletion = (Error?) -> Void
     typealias InsertionCompletion = (Error?) ->  Void
-    typealias LoadCompletion = (Result<RetrievalSuccess, Error>) -> Void
+    typealias LoadCompletion = (Result<CachedFeed, Error>) -> Void
     
     enum ReceivedMessage: Equatable {
         case deleteCachedFeed
