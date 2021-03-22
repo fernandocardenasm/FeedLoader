@@ -126,7 +126,7 @@ extension FeedStoreSpecs where Self: XCTestCase {
             if case let Result.failure(error) = result { deletionError = error }
             exp.fulfill()
         }
-        wait(for: [exp], timeout: 0.1)
+        wait(for: [exp], timeout: 1.0)
         return deletionError
     }
     
@@ -141,7 +141,7 @@ extension FeedStoreSpecs where Self: XCTestCase {
             
             exp.fulfill()
         }
-        wait(for: [exp], timeout: 0.1)
+        wait(for: [exp], timeout: 1.0)
         
         return insertionError
     }
@@ -164,7 +164,7 @@ extension FeedStoreSpecs where Self: XCTestCase {
             exp.fulfill()
         }
         
-        wait(for: [exp], timeout: 0.1)
+        wait(for: [exp], timeout: 1.0)
     }
     
     func expect(_ sut: FeedStore, toRetrieveTwice expectedResult: FeedStore.RetrievalResult, file: StaticString = #file, line: UInt = #line) {
